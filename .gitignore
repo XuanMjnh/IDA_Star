@@ -1,0 +1,32 @@
+# Build outputs
+target/
+out/
+build/
+
+# Compiled Java artifacts
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven local/release artifacts
+dependency-reduced-pom.xml
+release.properties
+
+# IntelliJ IDEA
+.idea/workspace.xml
+.idea/shelf/
+.idea/httpRequests/
+.idea/dataSources/
+.idea/dataSources.local.xml
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp

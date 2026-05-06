@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="760.0" prefWidth="1000.0" styleClass="app-root" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idastar.IDAStarController">
+   <Pane prefHeight="760.0" prefWidth="280.0" styleClass="side-panel">
+      <Label layoutX="40.0" layoutY="34.0" styleClass="app-title" text="Ghép tranh IDA*" />
+      <Label layoutX="40.0" layoutY="62.0" prefWidth="200.0" styleClass="app-subtitle" text="Sliding puzzle solver" />
+      <StackPane layoutX="36.0" layoutY="96.0" prefHeight="208.0" prefWidth="208.0" styleClass="preview-frame">
+         <ImageView fx:id="imgView" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="false" />
+      </StackPane>
+      <Label layoutX="40.0" layoutY="324.0" styleClass="section-label" text="ẢNH ĐẦU VÀO" />
+      <Button fx:id="addImage" layoutX="40.0" layoutY="352.0" mnemonicParsing="false" onAction="#onAddImgBtnClick" prefHeight="38.0" prefWidth="200.0" text="Ảnh gốc" />
+      <Button fx:id="changeImage" layoutX="40.0" layoutY="402.0" mnemonicParsing="false" onAction="#onChangeImgBtnClick" prefHeight="38.0" prefWidth="200.0" text="Đổi ảnh" />
+      <Label layoutX="40.0" layoutY="475.0" styleClass="section-label" text="PHÂN TÍCH" />
+      <Button fx:id="benchmarkBtn" layoutX="40.0" layoutY="503.0" mnemonicParsing="false" onAction="#onBenchmarkBtnClick" prefHeight="38.0" prefWidth="200.0" styleClass="secondary-button" text="Đánh giá Heuristic" />
+      <Separator layoutX="279.0" orientation="VERTICAL" prefHeight="760.0" styleClass="panel-separator" />
+   </Pane>
+   <Pane layoutX="280.0" prefHeight="760.0" prefWidth="720.0" styleClass="main-panel">
+      <Label layoutX="75.0" layoutY="28.0" styleClass="workspace-title" text="Bàn chơi" />
+      <AnchorPane fx:id="displayPane" layoutX="135.0" layoutY="72.0" prefHeight="450.0" prefWidth="450.0" styleClass="puzzle-stage">
+         <StackPane layoutX="21.0" layoutY="21.0" prefHeight="408.0" prefWidth="408.0" styleClass="puzzle-board-frame">
+            <Canvas fx:id="imgCanvas" height="400.0" onMouseClicked="#onMouseClicked" width="400.0" />
+         </StackPane>
+      </AnchorPane>
+      <Label layoutX="280.0" layoutY="532.0" prefWidth="160.0" styleClass="counter-label" text="SỐ BƯỚC" />
+      <TextField fx:id="stepField" alignment="CENTER" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" layoutX="280.0" layoutY="554.0" pickOnBounds="false" prefHeight="42.0" prefWidth="160.0" scaleShape="false" styleClass="step-counter" text="0" />
+      <SplitMenuButton fx:id="sizeMenu" layoutX="75.0" layoutY="622.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="160.0" text="3*3">
+         <items>
+            <RadioMenuItem fx:id="easy" mnemonicParsing="false" onAction="#onChangeImageSize" selected="true" text="3*3">
+               <toggleGroup>
+                  <ToggleGroup fx:id="difficultyToggle" />
+               </toggleGroup>
+            </RadioMenuItem>
+            <RadioMenuItem fx:id="medium" mnemonicParsing="false" onAction="#onChangeImageSize" text="4*4" toggleGroup="$difficultyToggle" />
+            <RadioMenuItem fx:id="hard" mnemonicParsing="false" onAction="#onChangeImageSize" text="5*5" toggleGroup="$difficultyToggle" />
+         </items>
+      </SplitMenuButton>
+      <Button fx:id="jumbleBtn" layoutX="280.0" layoutY="622.0" mnemonicParsing="false" onAction="#onJumbleBtnClick" prefHeight="38.0" prefWidth="160.0" text="Trộn" />
+      <Button fx:id="playBtn" layoutX="485.0" layoutY="622.0" mnemonicParsing="false" onAction="#onPlayBtnClick" prefHeight="38.0" prefWidth="160.0" text="Chơi" />
+      <Button fx:id="compareBtn" layoutX="75.0" layoutY="684.0" mnemonicParsing="false" onAction="#onCompareBtnClick" prefHeight="38.0" prefWidth="160.0" styleClass="secondary-button" text="So sánh lời giải" />
+      <SplitMenuButton fx:id="algorithmMenu" layoutX="280.0" layoutY="684.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="160.0" text="IDA* H1">
+         <items>
+            <RadioMenuItem fx:id="heuristic1" mnemonicParsing="false" onAction="#onChangeAlgorithm" selected="true" text="IDA* H1">
+               <toggleGroup>
+                  <ToggleGroup fx:id="algorithmToggle" />
+               </toggleGroup>
+            </RadioMenuItem>
+            <RadioMenuItem fx:id="heuristic2" mnemonicParsing="false" onAction="#onChangeAlgorithm" text="IDA* H2" toggleGroup="$algorithmToggle" />
+            <RadioMenuItem fx:id="heuristic3" mnemonicParsing="false" onAction="#onChangeAlgorithm" text="IDA* H3" toggleGroup="$algorithmToggle" />
+            <RadioMenuItem fx:id="heuristic4" mnemonicParsing="false" onAction="#onChangeAlgorithm" text="IDA* H4" toggleGroup="$algorithmToggle" />
+            <RadioMenuItem fx:id="heuristic5" mnemonicParsing="false" onAction="#onChangeAlgorithm" text="IDA* H5" toggleGroup="$algorithmToggle" />
+            <RadioMenuItem fx:id="heuristic6" mnemonicParsing="false" onAction="#onChangeAlgorithm" text="IDA* H6" toggleGroup="$algorithmToggle" />
+         </items>
+      </SplitMenuButton>
+      <Button fx:id="solveBtn" layoutX="485.0" layoutY="684.0" mnemonicParsing="false" onAction="#onSolveBtnClick" prefHeight="38.0" prefWidth="160.0" text="Giải tự động" />
+      <AnchorPane fx:id="statsPane" layoutX="0.0" layoutY="0.0" managed="false" prefHeight="760.0" prefWidth="720.0" styleClass="stats-pane" visible="false">
+         <Label fx:id="statsTitleLabel" layoutX="24.0" layoutY="22.0" text="Đánh giá các lời giải">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font>
+         </Label>
+         <Button layoutX="628.0" layoutY="20.0" mnemonicParsing="false" onAction="#onCloseStatsClick" prefHeight="30.0" prefWidth="68.0" text="Quay lại" />
+         <ComboBox fx:id="benchmarkSizeBox" layoutX="24.0" layoutY="64.0" managed="false" prefHeight="30.0" prefWidth="130.0" promptText="Kích thước" visible="false" />
+         <TextField fx:id="benchmarkTestField" layoutX="174.0" layoutY="64.0" managed="false" prefHeight="30.0" prefWidth="130.0" promptText="Số bộ test" visible="false" />
+         <Button fx:id="runBenchmarkBtn" layoutX="324.0" layoutY="64.0" managed="false" mnemonicParsing="false" onAction="#onRunBenchmarkClick" prefHeight="30.0" prefWidth="132.0" text="Chạy đánh giá" visible="false" />
+         <ScrollPane fitToWidth="true" layoutX="20.0" layoutY="110.0" prefHeight="626.0" prefWidth="680.0" styleClass="stats-scroll">
+            <content>
+               <VBox spacing="14.0" prefWidth="660.0">
+                  <TableView fx:id="statsTable" prefHeight="235.0" prefWidth="660.0">
+                     <columns>
+                        <TableColumn fx:id="heuristicColumn" prefWidth="42.0" text="H" />
+                        <TableColumn fx:id="descriptionColumn" prefWidth="250.0" text="Chi tiết" />
+                        <TableColumn fx:id="statusColumn" prefWidth="44.0" text="TT" />
+                        <TableColumn fx:id="stepColumn" prefWidth="48.0" text="Bước" />
+                        <TableColumn fx:id="approvedColumn" prefWidth="60.0" text="Duyệt" />
+                        <TableColumn fx:id="totalColumn" prefWidth="60.0" text="Sinh" />
+                        <TableColumn fx:id="timeColumn" prefWidth="82.0" text="T.gian" />
+                        <TableColumn fx:id="iterationColumn" prefWidth="44.0" text="Lặp" />
+                        <TableColumn fx:id="boundColumn" prefWidth="58.0" text="Ngưỡng" />
+                     </columns>
+                  </TableView>
+                  <Label fx:id="statsSummaryLabel" prefHeight="60.0" prefWidth="660.0" wrapText="true" />
+                  <Label prefHeight="44.0" prefWidth="660.0" text="Tiêu chí: TT = trạng thái, Duyệt = node mở rộng, Sinh = node sinh ra, Lặp = số vòng lặp IDA*, Ngưỡng = ngưỡng f cuối. Mỗi tiêu chí bên dưới có một biểu đồ riêng." wrapText="true" />
+                  <VBox fx:id="statsChartBox" spacing="18.0" prefWidth="660.0" />
+               </VBox>
+            </content>
+         </ScrollPane>
+      </AnchorPane>
+   </Pane>
+</AnchorPane>
